@@ -121,8 +121,14 @@ app.put('/todos/:id', checksExistsUserAccount, checksExistsTodoUser, (request, r
   return response.status(201).json(todo);
 });
 
-app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+app.patch('/todos/:id/done', checksExistsUserAccount, checksExistsTodoUser, (request, response) => {
+  const { todo } = request;
+
+  todo.done = true;
+
+  user.todos.push(todo);
+
+  return response.status(201).json(todo);
 });
 
 app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
